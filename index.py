@@ -1,3 +1,4 @@
+import functions
 
 grafo = {
     "Campinas": {"Paulínia": 25, "Sumaré": 23, "Monte Mor": 22, "Indaiatuba": 20},
@@ -20,41 +21,54 @@ grafo = {
 arvore = {}
 
 #organiza os valores de cada chave do grafo do menor ao maior dentro do dicionario
+functions.organizarGrafo(grafo)
+
+#imprime as cidades do grafo
 for chave in grafo:
-    grafo[chave] = dict(sorted(grafo[chave].items(), key = lambda item: item[1]))
+    print(chave)
 
-origem = input("Qual a cidade de origem?\n> ")
-if not(origem in grafo):
-    print("!")
-    
-destino = input("qual a cidede de destino?\n> ")
-if not(destino in grafo):
-    print("!")
+while True:
+    origem = input("\nQual a cidade de origem?\n> ")
+    if not(origem in grafo):
+        print("Esta cidade não existe no grafo!")
+        continue
 
-tipoAlgoritmo = input("Qual o tipo de algoritmo de busca?\n> ").upper()
-if tipoAlgoritmo not in ('BFS', 'DSF'):
-    print("!")
+    while True:
+        destino = input("\nQual a cidede de destino?\n> ")
+        if not(destino in grafo):
+            print("Esta cidade não existe no grafo!")
+            continue
+        break
 
-if tipoAlgoritmo == 'BFS':
-    fila = [origem]
-    menorCaminho = [origem]
-    pesoCaminho = 0
-    cidadeAtual = origem
-    indiceFila = 0
-    
-    while len(fila) < len(grafo):
-        arvore.update({cidadeAtual: {}})
+    while True:
+        tipoAlgoritmo = input("\nQual o tipo de algoritmo de busca? (BFS/DSF)\n> ").upper()
+        if tipoAlgoritmo not in ('BFS', 'DSF'):
+            print("Algortimo inválido!")
+            continue
+        break
+
+    if tipoAlgoritmo == 'BFS':
+        fila = [origem]
+        indiceFila = 0
         
-        for cidade, peso in grafo[cidadeAtual].items():
-            if cidade not in fila:
-                fila.append(cidade)
-                arvore[cidadeAtual].update({cidade: peso})
-                
-        
-        indiceFila += 1
-        cidadeAtual = fila[indiceFila]
-    print(arvore)
-    print(fila)
+        while indiceFila < len(fila):
+            cidadeAtual = fila[indiceFila]
+            arvore.update({cidadeAtual: {}})
+            
+            for cidade, peso in grafo[cidadeAtual].items():
+                if cidade not in fila:
+                    fila.append(cidade)
+                    arvore[cidadeAtual].update({cidade: peso})
+                    
+            
+            indiceFila += 1
+        functions.escreverFila(fila)
+        print("\nArvore:\n")
+        functions.escreverArvore(arvore)
+
+    elif tipoAlgoritmo == 'DSF':
+        ...
+
 
 
     
