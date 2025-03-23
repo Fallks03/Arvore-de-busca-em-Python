@@ -18,8 +18,6 @@ grafo = {
     "Tatuí": {"Boituva": 17, "Tietê": 25}
 }
 
-arvore = {}
-
 #organiza os valores de cada chave do grafo do menor ao maior dentro do dicionario
 functions.organizarGrafo(grafo)
 
@@ -28,6 +26,8 @@ for chave in grafo:
     print(chave)
 
 while True:
+    arvore = {}
+
     origem = input("\nQual a cidade de origem?\n> ")
     if not(origem in grafo):
         print("Esta cidade não existe no grafo!")
@@ -67,10 +67,20 @@ while True:
         functions.escreverArvore(arvore)
 
     elif tipoAlgoritmo == 'DSF':
-        ...
+        fila = [origem]
+        indiceFila = 0
 
+        while True:
+            if len(arvore) == len(grafo):
+                break
 
+            cidadeAtual = fila[indiceFila]
+            arvore.update({f'{cidadeAtual} ({indiceFila} |)': {}})
 
-    
+            for cidade, peso in grafo[cidadeAtual].items():
+                ...
+            
+        
+            
 
 
