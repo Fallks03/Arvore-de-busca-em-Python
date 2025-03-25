@@ -67,18 +67,20 @@ while True:
         functions.escreverArvore(arvore)
 
     elif tipoAlgoritmo == 'DSF':
-        fila = [origem]
-        indiceFila = 0
+        pilha = [origem]
+        visitados = set()
 
-        while True:
-            if len(arvore) == len(grafo):
-                break
-
-            cidadeAtual = fila[indiceFila]
-            arvore.update({f'{cidadeAtual} ({indiceFila} |)': {}})
-
-            for cidade, peso in grafo[cidadeAtual].items():
-                ...
+        while true:
+            cidadeAtual = pilha[-1]
+            arvore.update({cidadeAtual: {}})
+            
+            for cidade, peso in grafo[cidadeAtual]:
+                if cidade not in visitados:
+                    visitados.append(cidade)
+                    arvore[cidadeAtual].update({cidade: peso})
+                    pilha.append(cidade)
+        
+                
             
         
             
