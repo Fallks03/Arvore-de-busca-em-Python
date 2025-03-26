@@ -1,4 +1,4 @@
-import functions
+from functions import organizarGrafo, escreverFila, escreverArvore
 
 grafo = {
     "Campinas": {"Paulínia": 25, "Sumaré": 23, "Monte Mor": 22, "Indaiatuba": 20},
@@ -19,7 +19,7 @@ grafo = {
 }
 
 #organiza os valores de cada chave do grafo do menor ao maior dentro do dicionario
-functions.organizarGrafo(grafo)
+organizarGrafo(grafo)
 
 #imprime as cidades do grafo
 for chave in grafo:
@@ -84,9 +84,9 @@ while True:
                     break
 
                         
-    functions.escreverFila(fila)
+    escreverFila(fila)
     print("\nArvore:\n")
-    functions.escreverArvore(arvore)
+    escreverArvore(arvore)
                 
             
         
