@@ -1,4 +1,4 @@
-from functions import organizarGrafo, escreverFila, escreverArvore
+from functions import organizarGrafo, escreverFila, escreverArvore, menorCaminho
 
 grafo = {
     "Campinas": {"Paulínia": 25, "Sumaré": 23, "Monte Mor": 22, "Indaiatuba": 20},
@@ -83,10 +83,11 @@ while True:
                     indiceFila = -1
                     break
 
-                        
+                   
     escreverFila(fila)
     print("\nArvore:\n")
     escreverArvore(arvore)
+    print(f'\nMenor caminho: {menorCaminho(arvore, destino)}Km/h\n') 
                 
             
         
