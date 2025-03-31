@@ -41,8 +41,8 @@ while True:
         break
 
     while True:
-        tipoAlgoritmo = input("\nQual o tipo de algoritmo de busca? (BFS/DSF)\n> ").upper()
-        if tipoAlgoritmo not in ('BFS', 'DSF'):
+        tipoAlgoritmo = input("\nQual o tipo de algoritmo de busca? (BFS / DSF / Kruskal)\n> ").upper()
+        if tipoAlgoritmo not in ('BFS', 'DSF', 'KRUSKAL'):
             print("Algortimo inválido!")
             continue
         break
@@ -83,11 +83,14 @@ while True:
                     indiceFila = -1
                     break
 
+    elif tipoAlgoritmo == 'KRUSKAL':
+        ...
+
                    
     escreverFila(fila)
     print("\nArvore:\n")
     escreverArvore(arvore)
-    print(f'\nMenor caminho: {menorCaminho(arvore, destino)}Km/h\n') 
+    print(f'\nMenor caminho: {menorCaminho(arvore, destino)}Km\n') 
                 
             
         
