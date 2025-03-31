@@ -89,7 +89,7 @@ while True:
                    
     escreverFila(fila)
     print("\nArvore:\n")
-    escreverArvore(arvore)
+    escreverArvore(arvore, origem)
     print(f'\nMenor caminho: {menorCaminho(arvore, destino)}Km\n') 
                 
             

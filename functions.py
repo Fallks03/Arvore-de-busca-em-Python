@@ -2,9 +2,14 @@ def organizarGrafo(grafo):
     for chave in grafo:
         grafo[chave] = dict(sorted(grafo[chave].items(), key = lambda item: item[1]))
 
-def escreverArvore(arvore):
-    for chave in arvore:
-        print(chave + ":", arvore[chave])
+def escreverArvore(arvore, origem, nivel=1, cidade=None):
+    if cidade is None:
+        cidade = origem
+        print(cidade + " (raiz)")
+    if cidade in arvore:
+        for chave, valor in arvore[cidade].items():
+            print(" " * (nivel * 4) + f"↳ {chave} ({valor})")
+            escreverArvore(origem=None, cidade=chave, nivel=(nivel + 1), arvore=arvore)
 
 def escreverFila(fila):
     print("Q: {", end="")
