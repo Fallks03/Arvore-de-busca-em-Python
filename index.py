@@ -1,6 +1,7 @@
-from functions import organizarGrafo, escreverFila, escreverArvore, menorCaminho
+from functions import organizarGrafo, escreverFila, escreverArvore, menorCaminho, buscarMenorAresta
+import copy
 
-grafo = {
+GRAFO = {
     "Campinas": {"Paulínia": 25, "Sumaré": 23, "Monte Mor": 22, "Indaiatuba": 20},
     "Paulínia": {"Americana": 22, "Campinas": 25},
     "Americana": {"Paulínia": 22, "Sumaré": 18, "Piracicaba": 30},
@@ -19,35 +20,41 @@ grafo = {
 }
 
 #organiza os valores de cada chave do grafo do menor ao maior dentro do dicionario
-organizarGrafo(grafo)
+organizarGrafo(GRAFO)
+
+
 
 #imprime as cidades do grafo
-for chave in grafo:
+for chave in GRAFO:
     print(chave)
 
 while True:
     arvore = {}
+    fila = None #declaração da fila
 
-    origem = input("\nQual a cidade de origem?\n> ")
-    if not(origem in grafo):
+    origem = input("\nQual a cidade de origem?\n> ").capitalize() #capitalize transforma a primeira letra em maiúscula e o resto em minúscula
+    if not(origem in GRAFO):
         print("Esta cidade não existe no grafo!")
         continue
 
     while True:
-        destino = input("\nQual a cidede de destino?\n> ")
-        if not(destino in grafo):
+        destino = input("\nQual a cidade de destino?\n> ").capitalize()
+        if origem == destino:
+            print("A origem e o destino não podem ser iguais!")
+            continue
+        if not(destino in GRAFO):
             print("Esta cidade não existe no grafo!")
             continue
         break
 
     while True:
-        tipoAlgoritmo = input("\nQual o tipo de algoritmo de busca? (BFS / DSF / Kruskal)\n> ").upper()
-        if tipoAlgoritmo not in ('BFS', 'DSF', 'KRUSKAL'):
+        tipoAlgoritmo = input("\nQual o tipo de algoritmo de busca?\n1 - BFS\n2 - DFS\n3 - Kruskal\n> ").upper()
+        if tipoAlgoritmo not in ('BFS', 'DFS', 'KRUSKAL', '1', '2', '3'):
             print("Algortimo inválido!")
             continue
         break
 
-    if tipoAlgoritmo == 'BFS':
+    if tipoAlgoritmo in ('BFS', '1'):
         fila = [origem]
         indiceFila = 0
         
@@ -55,7 +62,7 @@ while True:
             cidadeAtual = fila[indiceFila]
             arvore.update({cidadeAtual: {}})
             
-            for cidade, peso in grafo[cidadeAtual].items():
+            for cidade, peso in GRAFO[cidadeAtual].items():
                 if cidade not in fila:
                     fila.append(cidade)
                     arvore[cidadeAtual].update({cidade: peso})
@@ -63,19 +70,19 @@ while True:
             
             indiceFila += 1
         
-    elif tipoAlgoritmo == 'DSF':
+    elif tipoAlgoritmo in ('DFS', '2'):
         fila = [origem]
         visitados = set()
         visitados.add(origem)
         indiceFila = -1
 
-        while len(arvore) < len(grafo):
+        while len(arvore) < len(GRAFO):
             cidadeAtual = fila[indiceFila]
             indiceFila -= 1
             if cidadeAtual not in arvore:
                 arvore.update({cidadeAtual: {}})
             
-            for cidade, peso in grafo[cidadeAtual].items():
+            for cidade, peso in GRAFO[cidadeAtual].items():
                 if cidade not in visitados:
                     visitados.add(cidade)
                     arvore[cidadeAtual].update({cidade: peso})
@@ -83,11 +90,53 @@ while True:
                     indiceFila = -1
                     break
 
-    elif tipoAlgoritmo == 'KRUSKAL':
-        ...
+    elif tipoAlgoritmo in ('KRUSKAL', '3'):
+        grafo = copy.deepcopy(GRAFO) #faz uma cópia do grafo original para não alterar o original
+        menorAresta = None
+        pesoTotal = 0
 
-                   
-    escreverFila(fila)
+        i = 0
+        for cidade in grafo:
+            grafo[cidade].update({'tag': {chr(65 + i)}}) #adiciona uma tag ("cor") a cada cidade
+            i += 1
+
+        #cria uma lista de visitados com o tamanho do grafo
+        visitados = [None] * (len(grafo)) 
+        #enquanto a lista de visitados não estiver cheia
+        while visitados[len(grafo) - 1] == None: 
+
+            menorAresta = None
+            #percorre todas as cidades do grafo procurando a menor conexão
+            for cidade in grafo: 
+                for conexao, peso in grafo[cidade].items():
+                    if conexao == 'tag':
+                        continue
+
+                    if menorAresta == None or peso < menorAresta[2]:
+                        if ((cidade, conexao, peso) not in visitados 
+                            and (conexao, cidade, peso) not in visitados):
+
+                            #verifica se as cidades não tem a mesma tag (cor)
+                            if grafo[cidade]['tag'] != grafo[conexao]['tag']: 
+                                visitados[len(arvore)] = (cidade, conexao, peso)
+                                menorAresta = (cidade, conexao, peso)
+                        else:
+                            continue
+            
+            #deixa as duas cidades com a mesma tag (cor)
+            grafo[menorAresta[1]]['tag'] = grafo[menorAresta[0]]['tag'] 
+            if menorAresta[0] in arvore:
+                arvore[menorAresta[0]].update({menorAresta[1]: menorAresta[2]})
+            else:
+                arvore.update({menorAresta[0]: {menorAresta[1]: menorAresta[2]}})
+            
+
+
+        
+        
+
+    print(arvore)    
+    escreverFila(fila) if fila else None
     print("\nArvore:\n")
     escreverArvore(arvore, origem)
     print(f'\nMenor caminho: {menorCaminho(arvore, destino)}Km\n') 

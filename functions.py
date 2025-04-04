@@ -39,3 +39,7 @@ def menorCaminho(arvore, destino):
         txtCaminho += f' -> {menorCaminho[-i]}' if i != 1 else f'{menorCaminho[-i]}'
         if menorCaminho[-i] == destino:
             return f'{txtCaminho} {pesoCaminho}'
+        
+def buscarMenorAresta(grafo, visitados):
+    ...
+
