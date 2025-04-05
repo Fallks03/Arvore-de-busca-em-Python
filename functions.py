@@ -2,6 +2,23 @@ def organizarGrafo(grafo):
     for chave in grafo:
         grafo[chave] = dict(sorted(grafo[chave].items(), key = lambda item: item[1]))
 
+def buscaBfs(grafo, origem, arvore = {}):
+    fila = [origem]
+    indiceFila = 0
+    
+    while indiceFila < len(fila):
+        cidadeAtual = fila[indiceFila]
+        arvore.update({cidadeAtual: {}})
+        
+        for cidade, peso in grafo[cidadeAtual].items():
+            if cidade not in fila:
+                fila.append(cidade)
+                arvore[cidadeAtual].update({cidade: peso})
+                
+        
+        indiceFila += 1
+    return (arvore, fila)
+
 def escreverArvore(arvore, nivel=1, cidade=None):
     if cidade is None:
         cidade = next(iter(arvore)) #pega a primeira chave da arvore
@@ -16,11 +33,15 @@ def escreverArvore(arvore, nivel=1, cidade=None):
                 arvore=arvore
             )
 
-def escreverFila(fila):
-    print("Q: {", end="")
-    for i in fila:
-        print(i, end=", ") if i != fila[-1] else print(i, end="")
-    print("}")
+def escreverFila(fila, algoritmo):
+    if algoritmo in ('KRUSKAL', '3'):
+        for item in fila:
+            print(f'{item[0]} --- {item[1]}\npeso: {item[2]}\n') if item != None else None
+    else:
+        print("Q: {", end="")
+        for i in fila:
+            print(i, end=", ") if i != fila[-1] else print(i, end="")
+        print("}")
 
 def menorCaminho(arvore, origem, destino):
     #a busca do menor caminho se basea em pegar o destino e fazer um caminho reverso até a origem
