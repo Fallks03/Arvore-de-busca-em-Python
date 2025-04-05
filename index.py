@@ -91,20 +91,17 @@ while True:
                     break
 
     elif tipoAlgoritmo in ('KRUSKAL', '3'):
-        grafo = copy.deepcopy(GRAFO) #faz uma cópia do grafo original para não alterar o original
+        grafo = copy.deepcopy(GRAFO) #faz uma cópia do grafo original para não alterar o mesmo
         menorAresta = None
-        pesoTotal = 0
 
         i = 0
         for cidade in grafo:
-            grafo[cidade].update({'tag': {chr(65 + i)}}) #adiciona uma tag ("cor") a cada cidade
+            grafo[cidade].update({'tag': {chr(65 + i)}}) #adiciona uma tag a cada cidade
             i += 1
 
-        #cria uma lista de visitados com o tamanho do grafo
-        visitados = [None] * (len(grafo)) 
-        #enquanto a lista de visitados não estiver cheia
+        visitados = [None] * (len(grafo) * 2) 
         i = 0 
-        while i < len(grafo): 
+        while len(arvore) < len(grafo): 
 
             menorAresta = None
             #percorre todas as cidades do grafo procurando a menor conexão
@@ -113,19 +110,34 @@ while True:
                     if conexao == 'tag':
                         continue
 
+                    if cidade == 'Capivari' and conexao == 'Salto':
+                        ...
+
                     if menorAresta == None or peso < menorAresta[2]:
                         if ((cidade, conexao, peso) not in visitados 
                             and (conexao, cidade, peso) not in visitados):
 
-                            #verifica se as cidades não tem a mesma tag (cor)
-                            if grafo[cidade]['tag'] != grafo[conexao]['tag']: 
+                            #verifica se as cidades não tem a mesma tag
+                            if grafo[cidade]['tag'].isdisjoint(grafo[conexao]['tag']): 
                                 visitados[i] = (cidade, conexao, peso)
                                 menorAresta = (cidade, conexao, peso)
                         else:
                             continue
             
-            #deixa as duas cidades com a mesma tag (cor)
-            grafo[menorAresta[1]]['tag'] = grafo[menorAresta[0]]['tag'] 
+            if menorAresta == None:
+                continue
+
+            #deixa as duas cidades com tags iguais
+            grafo[menorAresta[1]]['tag'].update(grafo[menorAresta[0]]['tag']) 
+            grafo[menorAresta[0]]['tag'].update(grafo[menorAresta[1]]['tag'])
+            
+            #adiciona a nova tag a todos os vizinhos da cidade
+            for cidade in grafo:
+                if not grafo[cidade]['tag'].isdisjoint(grafo[menorAresta[0]]['tag']) or not grafo[cidade]['tag'].isdisjoint(grafo[menorAresta[1]]['tag']):
+                    grafo[cidade]['tag'].update(grafo[menorAresta[0]]['tag'])
+                    grafo[cidade]['tag'].update(grafo[menorAresta[1]]['tag'])
+            
+
             if menorAresta[0] in arvore:
                 arvore[menorAresta[0]].update({menorAresta[1]: menorAresta[2]})
             else:
@@ -134,7 +146,7 @@ while True:
                 
     escreverFila(fila) if fila else None
     print("\nArvore:\n")
-    escreverArvore(arvore, origem)
+    escreverArvore(arvore)
     print(f'\nO peso total da arvore é de: {pesoTotalArvore(arvore)}Km')
     print(f'\nMenor caminho: {menorCaminho(arvore, origem, destino)}Km\n') 
                 

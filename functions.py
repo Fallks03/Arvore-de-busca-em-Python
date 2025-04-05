@@ -2,14 +2,19 @@ def organizarGrafo(grafo):
     for chave in grafo:
         grafo[chave] = dict(sorted(grafo[chave].items(), key = lambda item: item[1]))
 
-def escreverArvore(arvore, origem, nivel=1, cidade=None):
+def escreverArvore(arvore, nivel=1, cidade=None):
     if cidade is None:
-        cidade = origem
+        cidade = next(iter(arvore)) #pega a primeira chave da arvore
         print(cidade + " (raiz)")
+
     if cidade in arvore:
         for chave, valor in arvore[cidade].items():
             print(" " * (nivel * 4) + f"↳ {chave} ({valor})")
-            escreverArvore(origem=None, cidade=chave, nivel=(nivel + 1), arvore=arvore)
+            escreverArvore(
+                cidade=chave,
+                nivel=(nivel + 1),
+                arvore=arvore
+            )
 
 def escreverFila(fila):
     print("Q: {", end="")
@@ -45,5 +50,10 @@ def menorCaminho(arvore, origem, destino):
             return f'{txtCaminho} {pesoCaminho}'
         
 def pesoTotalArvore(arvore):
-    ...
+    pesoTotal = 0
+    for cidade in arvore:
+        for peso in arvore[cidade].values():
+            pesoTotal += peso
+    return pesoTotal
+
 
