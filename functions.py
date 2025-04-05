@@ -18,10 +18,15 @@ def escreverFila(fila):
     print("}")
 
 def menorCaminho(arvore, origem, destino):
+    #a busca do menor caminho se basea em pegar o destino e fazer um caminho reverso até a origem
+    #o algoritmo busca na arvore qual cidade tem uma conexão igual a da cidade atual da iteração
+    #se ele achar, a cidade pai se torna a atual, repita isso até achar origem
+    #depois a função retorna a lista do caminho de trás pra frente.
     cidadeAtual = destino
     menorCaminho = [destino]
     txtCaminho = ''
     pesoCaminho = 0
+
     while cidadeAtual != origem:
         
         for cidade, conexoes in arvore.items():
@@ -39,6 +44,6 @@ def menorCaminho(arvore, origem, destino):
         if menorCaminho[-i] == destino:
             return f'{txtCaminho} {pesoCaminho}'
         
-def buscarMenorAresta(grafo, visitados):
+def pesoTotalArvore(arvore):
     ...
 

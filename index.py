@@ -1,4 +1,4 @@
-from functions import organizarGrafo, escreverFila, escreverArvore, menorCaminho, buscarMenorAresta
+from functions import organizarGrafo, escreverFila, escreverArvore, menorCaminho, pesoTotalArvore
 import copy
 
 GRAFO = {
@@ -135,6 +135,7 @@ while True:
     escreverFila(fila) if fila else None
     print("\nArvore:\n")
     escreverArvore(arvore, origem)
+    print(f'\nO peso total da arvore é de: {pesoTotalArvore(arvore)}Km')
     print(f'\nMenor caminho: {menorCaminho(arvore, origem, destino)}Km\n') 
                 
             
