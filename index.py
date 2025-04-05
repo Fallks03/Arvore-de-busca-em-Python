@@ -36,7 +36,7 @@ while True:
     arvore = {}
     fila = None #declaração da fila
 
-    origem = input("\nQual a cidade de origem?\n> ").capitalize() #capitalize transforma a primeira letra em maiúscula e o resto em minúscula
+    origem = input("\nQual a cidade de origem?\n> ").title() #title transforma a primeira letra de cada palavra em maiúscula e o resto em minúscula
     if origem == 'Sair':
         print("Saindo...")
         break
@@ -45,7 +45,7 @@ while True:
         continue
 
     while True:
-        destino = input("\nQual a cidade de destino?\n> ").capitalize()
+        destino = input("\nQual a cidade de destino?\n> ").title()
         if origem == destino:
             print("A origem e o destino não podem ser iguais!")
             continue
