@@ -17,13 +17,12 @@ def escreverFila(fila):
         print(i, end=", ") if i != fila[-1] else print(i, end="")
     print("}")
 
-def menorCaminho(arvore, destino):
+def menorCaminho(arvore, origem, destino):
     cidadeAtual = destino
-    cidadeOrigem = next(iter(arvore.keys())) #pega o primeiro item da arvore
     menorCaminho = [destino]
     txtCaminho = ''
     pesoCaminho = 0
-    while cidadeAtual != cidadeOrigem:
+    while cidadeAtual != origem:
         
         for cidade, conexoes in arvore.items():
             if cidadeAtual in conexoes:

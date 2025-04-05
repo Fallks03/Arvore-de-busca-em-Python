@@ -103,7 +103,8 @@ while True:
         #cria uma lista de visitados com o tamanho do grafo
         visitados = [None] * (len(grafo)) 
         #enquanto a lista de visitados não estiver cheia
-        while visitados[len(grafo) - 1] == None: 
+        i = 0 
+        while i < len(grafo): 
 
             menorAresta = None
             #percorre todas as cidades do grafo procurando a menor conexão
@@ -118,7 +119,7 @@ while True:
 
                             #verifica se as cidades não tem a mesma tag (cor)
                             if grafo[cidade]['tag'] != grafo[conexao]['tag']: 
-                                visitados[len(arvore)] = (cidade, conexao, peso)
+                                visitados[i] = (cidade, conexao, peso)
                                 menorAresta = (cidade, conexao, peso)
                         else:
                             continue
@@ -129,17 +130,12 @@ while True:
                 arvore[menorAresta[0]].update({menorAresta[1]: menorAresta[2]})
             else:
                 arvore.update({menorAresta[0]: {menorAresta[1]: menorAresta[2]}})
-            
-
-
-        
-        
-
-    print(arvore)    
+            i += 1
+                
     escreverFila(fila) if fila else None
     print("\nArvore:\n")
     escreverArvore(arvore, origem)
-    print(f'\nMenor caminho: {menorCaminho(arvore, destino)}Km\n') 
+    print(f'\nMenor caminho: {menorCaminho(arvore, origem, destino)}Km\n') 
                 
             
         
