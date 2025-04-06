@@ -4,7 +4,9 @@ def organizarGrafo(grafo):
     for chave in grafo:
         grafo[chave] = dict(sorted(grafo[chave].items(), key = lambda item: item[1]))
 
-def buscaBfs(grafo, origem, arvore = {}):
+def buscaBfs(grafo, origem, arvore = None):
+    if arvore is None:
+        arvore = {}
     fila = [origem]
     indiceFila = 0
     
@@ -21,7 +23,9 @@ def buscaBfs(grafo, origem, arvore = {}):
         indiceFila += 1
     return (arvore, fila)
 
-def buscaDfs(grafo, origem, arvore = {}):
+def buscaDfs(grafo, origem, arvore = None):
+    if arvore is None:
+        arvore = {}
     fila = [origem]
     visitados = set()
     visitados.add(origem)
@@ -42,7 +46,9 @@ def buscaDfs(grafo, origem, arvore = {}):
                 break
     return (arvore, fila)
 
-def buscaKruskal(GRAFO, origem, arvore = {}):
+def buscaKruskal(GRAFO, origem, arvore = None):
+    if arvore is None:
+        arvore = {}
     grafo = copy.deepcopy(GRAFO) #faz uma cópia do grafo original para não alterar o mesmo
     menorAresta = None
 
